@@ -1,0 +1,62 @@
+class Crop:
+    def accept(self, visitor):
+        visitor.visit(self)
+    def sow(self, visitor):
+        print(self, "Sown by", visitor)
+    def irrigate(self, visitor):
+        print(self, "Irrigated by", visitor)
+    def harvest(self, visitor):
+        print(self, "Harvested by", visitor)
+    def __str__(self):
+        return self.__class__.__name__
+
+# Concrete Crops: Classes being visited.
+class Wheat(Crop): pass
+class Corn(Crop): pass
+class Tomato(Crop): pass
+
+
+
+
+# Abstract Visitor class for Concrete Visitor classes: method defined in this class will be inherited by all Concrete Visitor classes.
+class Visitor:
+    def __str__(self):
+        return self.__class__.__name__
+
+# Concrete Visitors: Classes visiting Concrete Crop objects. These classes have a visit() method which is called by the accept() method of the Concrete Crop classes.
+class GardenerOne(Visitor):
+    def visit(self, crop):
+        crop.sow(self)
+
+class GardenerTwo(Visitor):
+    def visit(self, crop):
+        crop.irrigate(self)
+
+class GardenerThree(Visitor):
+    def visit(self, crop):
+        crop.harvest(self)
+
+
+### USING THE ABOVE SETUP ###
+# Creating Plants
+wheatPatch = Wheat()
+cornPatch = Corn()
+tomatoPatch = Tomato()
+
+# Creating Visitors
+gardenerOne = GardenerOne()
+gardenerTwo = GardenerTwo()
+gardenerThree = GardenerThree()
+
+# Visitors visiting Plants
+wheatPatch.accept(gardenerOne)
+wheatPatch.accept(gardenerTwo)
+wheatPatch.accept(gardenerThree)
+
+cornPatch.accept(gardenerOne)
+cornPatch.accept(gardenerTwo)
+cornPatch.accept(gardenerThree)
+
+tomatoPatch.accept(gardenerOne)
+tomatoPatch.accept(gardenerTwo)
+tomatoPatch.accept(gardenerThree)
